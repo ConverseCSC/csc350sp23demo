@@ -7,6 +7,7 @@
 ; Add the math stuff
 ;(require racket/math)
 
+;; Numbers and their operations
 (+ 2 2)
 (/ 1 3)
 (* 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10)
@@ -16,18 +17,25 @@
 
 (/ (* (sin (/ pi 2)) (cos pi)) (cos (/ pi 3))) 
 
+;; String operations
 (string-append "Hel" "lo, w" "orld!")
 (string-length (string-append "Hel" "lo, w" "orld!"))
 ;(string-ith (string-append "Hel" "lo, w" "orld!") (- 1 (- 1 1)))
 
-(define (fibonacci n) 
-    (cond ((< n 2) n) 
-            (else (first (real-fib n)))))
+;; Type-checking functions
+(string? "Hello, world!")
+(string? 54)
+(number? "Hello, world!")
+(number? (sin (/ pi 2)))
 
-(define (real-fib n) 
-    (cond ((< n 2) (list n 0)) 
-           (else (let ((prev-fib (real-fib (- n 1)))) 
-             (list (+ (first prev-fib) (second prev-fib)) 
-                (first prev-fib))))))
+;; Creating constants
+(define STATES 50)
+(symbol? STATES) ; no, it's a variable, and its value is a number
 
-(fibonacci 4)
+;; Symbols
+(define STATES2 'united)
+(symbol? 'united)
+(symbol=? STATES2 'united)
+
+;; Boolean functions 
+(and (> STATES 49) (< STATES 51))
