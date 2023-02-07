@@ -6,5 +6,5 @@
 *.scm#*
 .#*.scm
 
-.replit
-replit.nix
+.replit*
+replit.nix*
