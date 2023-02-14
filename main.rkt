@@ -39,3 +39,12 @@
 
 ;; Boolean functions 
 (and (> STATES 49) (< STATES 51))
+
+;; Temperature converter
+(define (f->c deg-f)
+    (* (/ 5 9) (- deg-f 32)))
+
+(f->c 32) ;; 0
+(f->c 212) ;; 100
+(f->c 98.6) ;; 37
+(f->c -40) ;; -40
