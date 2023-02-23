@@ -64,3 +64,43 @@
 
 (dist-to-0 p1)
 (dist-to-0 (pt3d 3 4 12))
+
+
+;; Takes a pt3d or pt2d PT and returns a pt3d with the same coordinates.
+;; If PT is a pt2d, uses 0 for z.
+(define (convert-to-3d pt)
+        (cond [(pt3d? pt) pt]
+              [(pt2d? pt) (pt3d (pt2d-x pt) (pt2d-y pt) 0)]
+              [else (error "Not a point")]))
+
+;; Returns the 3-D (Euclidean) distance between two points.
+;; If either if the points is a pt2d, assume its z-value is 0.
+(define (distance raw1 raw2)
+        (let ([p1 (convert-to-3d raw1)]
+              [p2 (convert-to-3d raw2)])
+                (sqrt (+ (expt (- (pt2d-x p1) (pt2d-x p2)) 2)
+                         (expt (- (pt2d-y p1) (pt2d-y p2)) 2)
+                         (expt (- (pt3d-z p1) (pt3d-z p2)) 2)))))
+
+(distance (pt3d 1 0 0) (pt3d 0 0 0))  ; 1
+(distance (pt3d 2 2 2) (pt3d 6 5 14)) ; 13
+(distance (pt3d 12 21 4) (pt2d 9 21)) ; 5
+(distance (pt2d 9 21) (pt3d 12 21 4)) ; 5
+
+(define (path-length ptslist)
+   (cond [(< (length ptslist) 2) 0]  ; < 2 points, no path
+        ;; Otherwise, distance between first 2 points + path length of the rest
+         [else (+ (distance (first ptslist) (list-ref ptslist 1))
+                  (path-length (rest ptslist)))]))
+
+(path-length (list)) ; 0
+(path-length (list (pt2d 0 0))) ; 0
+(path-length (list (pt2d 0 0) (pt2d 1 0))) ; 1
+(path-length (list (pt2d 0 0) (pt2d 1 0) (pt3d 1 0 2))) ; 3 (+ 2)
+(path-length (list (pt2d 0 0) (pt2d 1 0) (pt3d 1 0 2) (pt3d 1 2 2))) ; 5 (+ 2)
+(path-length (list (pt2d 0 0) (pt2d 1 0) (pt3d 1 0 2) (pt3d 1 2 2) 
+                   (pt3d 5 5 14))) ; 18 (+ 13)
+(path-length (list (pt2d 0 0) (pt2d 1 0) (pt3d 1 0 2) (pt3d 1 2 2) 
+                   (pt3d 5 5 14) (pt3d 5 2 10))) ; 23 (+ 5))
+
+
