@@ -73,3 +73,99 @@
 (string-cat (sample-list))  ; "twosix"
 (string-cat symb-list)      ; "not a symbol"
 (string-cat (list))         ; ""
+
+;; Fahrenheit to Celsius in a list.
+(define (F->C degF)
+    (* (/ 5 9) (- degF 32)))
+(F->C 32)
+(F->C 212)
+(F->C -40)
+
+;; Using recursion:
+(define (listF->listC listF)
+    (cond [(empty? listF) empty]
+          [else (cons (F->C (first listF)) 
+                      (listF->listC (rest listF)))]))
+
+(listF->listC (list 212 98.6 32 -40))
+
+;; Using map
+(map F->C (list 212 98.6 32 -40))
+
+;; Filtering out expensive items (above a given threshold)
+;; Recursively:
+(define (eliminate-exp ua lotp)
+    (cond [(empty? lotp) empty] ; Base case
+          ;; Two recursive cases: (1) keep the first toy, (2) don't keep the first toy
+          [(>= ua (first lotp)) (cons (first lotp) (eliminate-exp ua (rest lotp)))]
+          [else (eliminate-exp ua (rest lotp))]))
+
+(eliminate-exp 1.0 (list 2.95 .95 1.0 5))
+
+;; Using filter
+(define (filter-exp ua lotp)
+    (filter 
+        (lambda (price) (>= ua price)) ;; Closure: value of ua is baked in, or "closed over"
+        lotp))
+
+(filter-exp 1.0 (list 2.95 .95 1.0 5))
+
+;; Inventory-record structure.  An inventory is a list of these things.
+(struct inv-rec (name price) #:transparent)
+
+;; Recursively
+(define (extract>1 inventory)
+    (cond [(empty? inventory) empty] ;; Base case
+          ;; Two recursive cases: (1) keep the first item, (2) don't keep the first item
+          [(> (inv-rec-price (first inventory)) 1) (cons (first inventory)
+                                                         (extract>1 (rest inventory)))]
+          [else (extract>1 (rest inventory))]))
+
+(extract>1 (list (inv-rec 'dagger .95)
+                 (inv-rec 'Barbie 17.95)
+                 (inv-rec 'key-chain .55)
+                 (inv-rec 'robot 22.05)))
+
+;; Using filter
+(define (filter>1 inventory)
+    (filter 
+        (lambda (record) (> (inv-rec-price record) 1)) 
+        inventory))
+(filter>1 (list (inv-rec 'dagger .95)
+                (inv-rec 'Barbie 17.95)
+                (inv-rec 'key-chain .55)
+                (inv-rec 'robot 22.05)))
+
+;; Is there an inventory structure in the list?
+;; Recursively
+(define (inv-present? listvar)
+    (cond [(empty? listvar) #f]
+          [(inv-rec? (first listvar)) #t]
+          [else (inv-present? (rest listvar))]))
+
+(inv-present? symb-list)
+(inv-present? (list #t 'foo '('xyzzy 'plugh) 'bar pi 'baz "not a symbol" 5103
+                    (inv-rec 'Barbie 17.95)))
+
+(define (inv-present-filter? listvar)
+    (> (length (filter inv-rec? listvar)) 0))
+
+(inv-present-filter? symb-list)
+(inv-present-filter? (list #t 'foo '('xyzzy 'plugh) 'bar pi 'baz "not a symbol" 5103
+                          (inv-rec 'Barbie 17.95)))
+
+;; phone record
+(struct phone-rec (name number))
+;; A phonebook is a list of phone records
+
+(define (whose-number number phonebook)
+    (cond [(empty? phonebook) ""]
+          [(string=? (phone-rec-number (first phonebook)) number)
+             (phone-rec-name (first phonebook))]
+          [else (whose-number number (rest phonebook))]))
+
+(whose-number "596-9156" (list (phone-rec "Peter Brown" "596-9156")
+                               (phone-rec "Switchboard" "596-9000")))
+(whose-number "596-9155" (list (phone-rec "Peter Brown" "596-9156")
+                               (phone-rec "Switchboard" "596-9000")))
+
