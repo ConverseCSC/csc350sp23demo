@@ -8,3 +8,9 @@
 
 .replit*
 replit.nix*
+.ccls-cache
+
+main
+**/*.o
+**/*.d
+Makefile
