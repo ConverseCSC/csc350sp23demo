@@ -11,8 +11,12 @@ struct parameters {
 };
 
 // Now, use it in a function
-parameters read_params() {
-  parameters result;
+// The &result means call by reference, so result in this routine is an
+//    *alias* for, not a copy of, the parameter in the calling routine
+//    (in this case, the variable params in main()).  Call by reference
+//    allows this function to change the value the calling routine sees,
+//    by side effect.
+void read_params(parameters &result) {
   cout << "Please enter an initial principal: $";
   cin >> result.P;
   cout << "Please enter the interest rate per compounding period, in percent: ";
@@ -20,7 +24,6 @@ parameters read_params() {
   result.rate /= 100;
   cout << "Please enter the number of periods: ";
   cin >> result.periods;
-  return result;
 }
 
 void echo_params(parameters params) {
@@ -64,17 +67,20 @@ double *calc_growth_array(parameters params) {
   return values;
 }
 
-void print_table_array(int periods, double values[]) {
+void print_table_array(int periods, double *values) {
   cout << "period\t\tvalue" << endl;
   cout << "------------------------------" << endl;
   for (int i = 0; i < periods; i++) {
-    cout << "\t" << i << "\t\t$" << values[i] << endl;
+    cout << "\t" << i << "\t\t$" << *(values++) << endl;
   }
 }
 
 int main() {
+  parameters params; // uninitialized
+
   // Read parameters
-  parameters params = read_params();
+  read_params(params); // Call by value; doesn't change the calling routine
+
   echo_params(params);
 
   // Do the calculation, using a vector (which is much like a Python list)
@@ -84,4 +90,8 @@ int main() {
   // Note the array has to be last in the parameter list,
   // since C++ doesn't know how long it is
   print_table_array(params.periods, values);
+
+  // Can also use an array to totally break the type system
+  char char_array[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+  print_table_array(5 * params.periods, reinterpret_cast<double *>(char_array));
 }
