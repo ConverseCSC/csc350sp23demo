@@ -3,17 +3,20 @@
 // futureval
 using namespace std;
 
-// Preprocessor directives to set constants
-#define TRUE 1
-#define FALSE 0
-
 #include "PlayingCard.hpp"
 
 bool tests_pass() {
-  bool correct = TRUE;
+  bool correct = true;
 
   // Test construction, suit
   PlayingCard friendly("Hearts", "Jack");
+  // Test rankName()
+  correct = correct && (friendly.rankName() == "Jack");
+  // Test suit()
+  correct = correct && (friendly.suit() == "Hearts");
+
+  vector<PlayingCard> deck = PlayingCard::makeDeck();
+  correct = correct && (deck.size() == 52);
 
   return correct;
 }
