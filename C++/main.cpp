@@ -9,8 +9,10 @@ bool tests_pass() {
   bool correct = true;
 
   // Test construction, suit
+  // cout << "Constructor" << endl;
   PlayingCard friendly("Hearts", "Jack");
   // Test rankName()
+  // cout << "rankName" << endl;
   correct = correct && (friendly.rankName() == "Jack");
   // Test suit()
   correct = correct && (friendly.suit() == "Hearts");

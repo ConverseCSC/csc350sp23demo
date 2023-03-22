@@ -1,16 +1,16 @@
 # Define some new variables
 OBJS=*.o
-CARDOBJS=PlayingCard.o cardtests.o
-EXEFILES=cardtests a.out
-
-cardtests-debug: $(CARDOBJS)
-    $(CXX) -DDEBUG -o cardtests $(LDFLAGS) $(CARDOBJS)
+CARDOBJS=PlayingCard.o main.o
+EXEFILES=main cardtests a.out
 
 # First rule is default.  cardtests relies on the object files in $(CARDOBJS), which
 #   make already knows how to make (by default).  The actual command is therefore
 #   just the linker command.
-cardtests: $(CARDOBJS)
-	$(CXX) -o cardtests $(LDFLAGS) $(CARDOBJS) 
+main: $(CARDOBJS)
+	$(CXX) -o main $(LDFLAGS) $(CARDOBJS) 
+
+main-debug: $(CARDOBJS)
+#    $(CXX) -o main -DDEBUG $(LDFLAGS) $(CARDOBJS)
 
 # .PHONY says that the listed make command isn't a file to be made
 .PHONY: clean
