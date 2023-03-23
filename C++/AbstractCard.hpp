@@ -36,6 +36,10 @@ class AbstractCard {
         virtual string suit() const { return this->_suit; }
         virtual string rankName() const { return this->_rank; }
 
+        virtual string toString() const { 
+            return (this->_suit + " " + this->_rank); 
+        }
+
         //static vector<AbstractCard> makeDeck() = 0;
 };
 

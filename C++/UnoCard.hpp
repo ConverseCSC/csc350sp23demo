@@ -1,6 +1,6 @@
 // Preprocessor directives to guarantee this file is read no more than once
-#ifndef PLAYINGCARD_H
-#define PLAYINGCARD_H
+#ifndef UNOCARD_H
+#define UNOCARD_H
 
 #include <cassert>
 #include <string>
@@ -9,26 +9,25 @@
 
 using namespace std;
 
-class PlayingCard: public AbstractCard {
+class UnoCard: public AbstractCard {
     private:
+        static vector<string> _COLOR_SUITS;
+        static string _WILD_SUIT;
         static vector<string> _SUITS;
+        static vector<string> _COLOR_RANKS;
+        static vector<string> _WILD_RANKS;
         static vector<string> _RANK_NAMES;
 
     protected:
         virtual bool invariant() const;
     
     public:
-        PlayingCard(const string& suit, const string& rank): AbstractCard(suit, rank) {
+        UnoCard(const string& suit, const string& rank): AbstractCard(suit, rank) {
             assert(this->invariant());
         }
-
         virtual vector<string> SUITS() const { return _SUITS; }
         virtual vector<string> RANK_NAMES() const { return _RANK_NAMES; }
-        virtual string toString() const { 
-            return this->rankName() + " of " + this->suit(); 
-        }
-
-        static vector<PlayingCard> makeDeck();  // Implementation in .cpp file
+        static vector<UnoCard> makeDeck();  // Implementation in .cpp file
 };
 
 #endif

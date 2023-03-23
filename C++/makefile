@@ -1,7 +1,7 @@
 # Define some new variables
 EXE=cardtests
 OBJS=*.o
-CARDOBJS=PlayingCard.o $(EXE).o
+CARDOBJS=PlayingCard.o UnoCard.o $(EXE).o
 EXEFILES=main $(EXE) a.out
 
 # First rule is default.  cardtests relies on the object files in $(CARDOBJS), which
