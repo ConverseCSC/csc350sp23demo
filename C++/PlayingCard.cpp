@@ -24,13 +24,14 @@ bool PlayingCard::invariant() const {
   return validSuit && validRank; // Copied
 }
 
-unique_ptr<vector<PlayingCard>> PlayingCard::makeDeck() {
+unique_ptr<vector<unique_ptr<PlayingCard>>> PlayingCard::makeDeck() {
   auto deck =
-      make_unique<vector<PlayingCard>>(); // On stack, vector is on the heap
+      make_unique<vector<unique_ptr<PlayingCard>>>(); // On stack, vector is on
+                                                      // the heap
   for (string rank : PlayingCard::_RANK_NAMES) {
     for (string suit : PlayingCard::_SUITS) {
-      deck->push_back(PlayingCard(suit, rank));
+      deck->push_back(make_unique<PlayingCard>(suit, rank));
     }
   }
-  return move(deck); 
+  return move(deck);
 }

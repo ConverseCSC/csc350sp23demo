@@ -2,6 +2,7 @@
 #ifndef ABSTRACTCARD_H
 #define ABSTRACTCARD_H
 
+#include <iostream>
 #include <string> // <> says look on the include path for a built-in library
 #include <vector>
 using namespace std;
@@ -26,6 +27,15 @@ class AbstractCard {
         }
     
     public:
+        /**
+         * Destructor.  Since strings are pretty good about
+         * deleting themselves, this just prints which card
+         * is getting cleaned up.
+         */
+        virtual ~AbstractCard() {
+            cout << "Destructor: " << this->_suit << " " << this->_rank << endl;
+        }
+
         // Logically, these two functions should be class methods,
         //     not instance methods, but C++ doesn't do virtual class methods
         // "= 0" part means they're pure-virtual functions, which

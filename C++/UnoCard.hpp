@@ -28,7 +28,7 @@ class UnoCard: public AbstractCard {
         }
         virtual vector<string> SUITS() const { return _SUITS; }
         virtual vector<string> RANK_NAMES() const { return _RANK_NAMES; }
-        static unique_ptr<vector<UnoCard>> makeDeck();  // Implementation in .cpp file
+        static unique_ptr<vector<unique_ptr<UnoCard>>> makeDeck();  // Implementation in .cpp file
 };
 
 #endif

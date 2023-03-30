@@ -29,7 +29,7 @@ class PlayingCard: public AbstractCard {
             return this->rankName() + " of " + this->suit(); // Where does this live?
         }
 
-        static unique_ptr<vector<PlayingCard>> makeDeck();  // Implementation in .cpp file
+        static unique_ptr<vector<unique_ptr<PlayingCard>>> makeDeck();  // Implementation in .cpp file
 };
 
 #endif

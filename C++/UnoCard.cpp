@@ -28,21 +28,22 @@ bool UnoCard::invariant() const {
   return valid;
 }
 
-unique_ptr<vector<UnoCard>> UnoCard::makeDeck() {
-  unique_ptr<vector<UnoCard>> deck =
-      make_unique<vector<UnoCard>>(); // pointer on stack, vector from heap
+unique_ptr<vector<unique_ptr<UnoCard>>> UnoCard::makeDeck() {
+  unique_ptr<vector<unique_ptr<UnoCard>>> deck =
+      make_unique<vector<unique_ptr<UnoCard>>>(); // pointer on stack, vector
+                                                  // from heap
   for (string rank : _COLOR_RANKS) {
     for (string suit : _COLOR_SUITS) {
-      deck->push_back(UnoCard(suit, rank));
+      deck->push_back(make_unique<UnoCard>(suit, rank));
       if (rank != "0") {
-        deck->push_back(UnoCard(suit, rank));
+        deck->push_back(make_unique<UnoCard>(suit, rank));
       }
     }
   }
   string suit = _WILD_SUIT;
   for (string rank : _WILD_RANKS) {
     for (int i = 0; i < 4; i++) {
-      deck->push_back(UnoCard(suit, rank));
+      deck->push_back(make_unique<UnoCard>(suit, rank));
     }
   }
 
