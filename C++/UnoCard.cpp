@@ -1,4 +1,5 @@
 #include "UnoCard.hpp"
+#include <memory>
 
 vector<string> UnoCard::_COLOR_SUITS{"Red", "Yellow", "Green", "Blue"};
 vector<string> UnoCard::_COLOR_RANKS{"0",    "1",       "2",       "3", "4",
@@ -12,7 +13,7 @@ vector<string> UnoCard::_RANK_NAMES{
     "8", "9", "Skip", "Reverse", "Draw Two", "",  "Draw Four"};
 
 bool UnoCard::invariant() const {
-  bool valid = false;
+  bool valid = false; // Stack
   if (this->suit() == _WILD_SUIT) {
     valid = ((this->rankName() == "") || (this->rankName() == "Draw Four"));
   } else if (this->suit() == "Red" || this->suit() == "Yellow" ||
@@ -27,22 +28,23 @@ bool UnoCard::invariant() const {
   return valid;
 }
 
-vector<UnoCard> UnoCard::makeDeck() {
-  vector<UnoCard> deck;
+unique_ptr<vector<UnoCard>> UnoCard::makeDeck() {
+  unique_ptr<vector<UnoCard>> deck =
+      make_unique<vector<UnoCard>>(); // pointer on stack, vector from heap
   for (string rank : _COLOR_RANKS) {
     for (string suit : _COLOR_SUITS) {
-      deck.push_back(UnoCard(suit, rank));
+      deck->push_back(UnoCard(suit, rank));
       if (rank != "0") {
-        deck.push_back(UnoCard(suit, rank));
+        deck->push_back(UnoCard(suit, rank));
       }
     }
   }
   string suit = _WILD_SUIT;
   for (string rank : _WILD_RANKS) {
     for (int i = 0; i < 4; i++) {
-      deck.push_back(UnoCard(suit, rank));
+      deck->push_back(UnoCard(suit, rank));
     }
   }
 
-  return deck;
+  return move(deck);
 }

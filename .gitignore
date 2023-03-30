@@ -15,3 +15,5 @@ cardtests
 **/*.o
 **/*.d
 Makefile
+
+.breakpoints

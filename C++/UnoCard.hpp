@@ -3,6 +3,7 @@
 #define UNOCARD_H
 
 #include <cassert>
+#include <memory>
 #include <string>
 #include <vector>
 #include "AbstractCard.hpp" // Quotation marks say, look in the current directory
@@ -27,7 +28,7 @@ class UnoCard: public AbstractCard {
         }
         virtual vector<string> SUITS() const { return _SUITS; }
         virtual vector<string> RANK_NAMES() const { return _RANK_NAMES; }
-        static vector<UnoCard> makeDeck();  // Implementation in .cpp file
+        static unique_ptr<vector<UnoCard>> makeDeck();  // Implementation in .cpp file
 };
 
 #endif

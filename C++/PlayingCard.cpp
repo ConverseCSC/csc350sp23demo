@@ -1,13 +1,16 @@
 #include "PlayingCard.hpp"
+#include <iostream>
 
+// Owned by class
 vector<string> PlayingCard::_SUITS{"Clubs", "Diamonds", "Hearts", "Spades"};
+// Owned by class
 vector<string> PlayingCard::_RANK_NAMES{"Ace",  "2",     "3",   "4", "5",
                                         "6",    "7",     "8",   "9", "10",
                                         "Jack", "Queen", "King"};
 
 bool PlayingCard::invariant() const {
-  bool validSuit = false;
-  bool validRank = false;
+  bool validSuit = false; // On stack
+  bool validRank = false; // On stack
   for (int i = 0; i < this->SUITS().size(); i++) {
     if (this->suit() == this->SUITS().at(i)) {
       validSuit = true;
@@ -18,15 +21,16 @@ bool PlayingCard::invariant() const {
       validRank = true;
     }
   }
-  return validSuit && validRank;
+  return validSuit && validRank; // Copied
 }
 
-vector<PlayingCard> PlayingCard::makeDeck() {
-  vector<PlayingCard> deck;
+unique_ptr<vector<PlayingCard>> PlayingCard::makeDeck() {
+  auto deck =
+      make_unique<vector<PlayingCard>>(); // On stack, vector is on the heap
   for (string rank : PlayingCard::_RANK_NAMES) {
     for (string suit : PlayingCard::_SUITS) {
-      deck.push_back(PlayingCard(suit, rank));
+      deck->push_back(PlayingCard(suit, rank));
     }
   }
-  return deck;
+  return move(deck); 
 }

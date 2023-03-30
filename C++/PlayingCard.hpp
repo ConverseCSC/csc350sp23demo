@@ -3,6 +3,7 @@
 #define PLAYINGCARD_H
 
 #include <cassert>
+#include <memory>
 #include <string>
 #include <vector>
 #include "AbstractCard.hpp" // Quotation marks say, look in the current directory
@@ -25,10 +26,10 @@ class PlayingCard: public AbstractCard {
         virtual vector<string> SUITS() const { return _SUITS; }
         virtual vector<string> RANK_NAMES() const { return _RANK_NAMES; }
         virtual string toString() const { 
-            return this->rankName() + " of " + this->suit(); 
+            return this->rankName() + " of " + this->suit(); // Where does this live?
         }
 
-        static vector<PlayingCard> makeDeck();  // Implementation in .cpp file
+        static unique_ptr<vector<PlayingCard>> makeDeck();  // Implementation in .cpp file
 };
 
 #endif

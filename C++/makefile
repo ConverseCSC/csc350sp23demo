@@ -15,9 +15,10 @@ cardtests: $(CARDOBJS)
 
 # .PHONY says that the listed make command isn't a file to be made
 .PHONY: clean
+.SILENT: clean
 
 # clean clears everything out.  It's handy when you have reason not to trust
 #   that everything is up to date, because it forces make to recompile everything
 #   from scratch.
 clean:
-	-rm $(OBJS) $(EXEFILES)
+	-rm -f $(OBJS) $(EXEFILES)
