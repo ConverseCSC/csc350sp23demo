@@ -3,6 +3,8 @@
 // futureval
 using namespace std;
 
+#include "AbstractCard.hpp"
+#include "Deck.hpp"
 #include "PlayingCard.hpp"
 #include "UnoCard.hpp"
 
@@ -70,6 +72,11 @@ bool UnoCard_tests_pass() {
   correct = correct && (deck->size() == 108);
 
   return correct;
+}
+
+bool deck_tests_pass() {
+  Deck uno_deck(UnoCard::makeDeck());
+  cout << uno_deck.toString() << endl;
 }
 
 int main() {
