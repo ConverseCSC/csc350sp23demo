@@ -8,3 +8,12 @@
 
 .replit*
 replit.nix*
+.ccls-cache
+
+main
+cardtests
+**/*.o
+**/*.d
+Makefile
+
+.breakpoints
