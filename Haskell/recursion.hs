@@ -10,3 +10,16 @@ zip' _ [] = []
 zip' [] _ = []  
 zip' (x:xs) (y:ys) = (x,y):zip' xs ys
 
+
+mergesort:: (Ord a) => [a] -> [a]
+mergesort [] = []
+mergesort [x] = [x]
+mergesort xs = merge (mergesort firsthalf) (mergesort lasthalf)
+    where halflength = length xs `div` 2
+          firsthalf = take halflength xs
+          lasthalf = drop halflength xs
+          merge ys zs
+            | null ys = zs
+            | null zs = ys
+            | head ys <= head zs = head ys : merge (tail ys) zs
+            | head ys > head zs = head zs : merge ys (tail zs)
